@@ -1,11 +1,19 @@
-create_table_string = """CREATE TABLE IF NOT EXISTS logs(
-                                id SERIAL PRIMARY KEY,
-                                date_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP)"""
+db = {'host': 'localhost',
+      'dbname': 'postgres',
+      'password': 'postgres',
+      'user': 'postgres',
+      'port': 5432}
 
 create_table_string = """CREATE TABLE IF NOT EXISTS rates(
-                                log INTEGER NOT NULL,
-                                date_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP)
-                                first_curr VARCHAR(3) NOT NULL,
-                                second_curr VARCHAR(3) NOT NULL,
+                                id SERIAL PRIMARY KEY,
+                                datetime TIMESTAMP NOT NULL,
+                                curr1 VARCHAR(3) NOT NULL,
+                                curr2 VARCHAR(3) NOT NULL,
                                 rate DECIMAL NOT NULL,
-                                colour CHAR(1) check(colour in ('G','R','W'))"""                                
+                                colour VARCHAR(5) check(colour in ('green','red','white')) NOT NULL)"""
+
+query_history = """SELECT datetime, curr1, curr2, rate, colour FROM rates"""
+
+insert_into_tables_values = """INSERT INTO rates
+                               (datetime, curr1, curr2, rate, colour)
+                               VALUES (%s, %s, %s, %s, %s)"""
